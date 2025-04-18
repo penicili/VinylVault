@@ -10,5 +10,5 @@ Auveta Rizky Pratama <br>
 
 ## Services
 1. User Service/ Auth Service => User Authentication
-2. Catalog/ Rental Service => Album Database
+2. Inventory Service  => Album Database
 3. Deepseek AI Integration for Album Recomendations => Album Recomendations Powered by AI
