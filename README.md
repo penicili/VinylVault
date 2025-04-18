@@ -2,10 +2,10 @@
 Tugas Pengganti UTS Integrasi Aplikasi Enterprise
 
 ## Kelompok 8 SI4606
-Ihsan Nafil Athallah
-Rahadian Hasan Wirayuda
-Katon Bagaskoro
-Auveta Rizky Pratama
+Ihsan Nafil Athallah <br>
+Rahadian Hasan Wirayuda <br>
+Katon Bagaskoro <br>
+Auveta Rizky Pratama <br>
 
 
 ## Services
