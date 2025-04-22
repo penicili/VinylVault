@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { useState } from "react";
 import AlbumCard from "~/components/albumcard";
 import vinyls from "../../dummy-vinyls.json";
 
@@ -12,36 +11,8 @@ export function meta({}) {
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-
-  // Check if user is logged in
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const parsedUser = JSON.parse(userData);
-        setIsLoggedIn(true);
-        setUser(parsedUser);
-      } else {
-        setIsLoggedIn(false);
-        setUser(null);
-      }
-    };
-
-    // Check on component mount
-    checkLoginStatus();
-
-    // Set up storage event listener to handle login/logout in other tabs
-    window.addEventListener('storage', checkLoginStatus);
-
-    // Clean up
-    return () => {
-      window.removeEventListener('storage', checkLoginStatus);
-    };
-  }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,12 +38,6 @@ export default function Home() {
     setHasSearched(true);
     
     console.log("Searching for:", searchQuery, "Found:", results.length, "results");
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    setUser(null);
   };
 
   return (
@@ -101,33 +66,6 @@ export default function Home() {
               </button>
             </div>
           </form>
-        </div>
-
-        {/* User Section */}
-        <div className="text-center py-4 mb-8">
-          {isLoggedIn ? (
-            <div>
-              <p className="text-gray-600 dark:text-gray-400 mb-2">
-                Welcome, {user?.name || 'User'}!
-              </p>
-              <button
-                onClick={handleLogout}
-                className="inline-block bg-gray-600 text-white px-6 py-2 rounded-full font-bold hover:bg-gray-700 transition"
-              >
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <>
-              <p className="text-gray-600 dark:text-gray-400 mb-2">Already have an account?</p>
-              <Link 
-                to="/auth" 
-                className="inline-block bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition"
-              >
-                Sign In
-              </Link>
-            </>
-          )}
         </div>
       </div>
 
