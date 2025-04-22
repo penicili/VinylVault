@@ -16,5 +16,4 @@ Route::prefix('inventory')->group(function () {  // Note: removed 'api/' since a
     Route::patch('/{id}/availability', [InventoryController::class, 'updateAvailability']);
     
     // Webhook endpoint for order service to update record availability
-    Route::post('/webhooks/order-update', [WebhookController::class, 'orderUpdate']);
 });
