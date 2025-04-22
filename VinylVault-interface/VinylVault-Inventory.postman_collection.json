@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "41d21b53-1fed-4b94-9fd1-d54712d60a9a",
+		"name": "VinylVault-Inventory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33958177",
+		"_collection_link": "https://cloudy-meadow-55464.postman.co/workspace/Team-Workspace~cf0ab5dd-a24b-4c6c-8526-340e3582dabc/collection/33958177-41d21b53-1fed-4b94-9fd1-d54712d60a9a?action=share&source=collection_link&creator=33958177"
+	},
+	"item": [
+		{
+			"name": "GET all inventory",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET inventory by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/inventory/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"inventory",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Inventory by title",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/inventory/search/dark",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"inventory",
+						"search",
+						"dark"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by avail status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/inventory/available",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"inventory",
+						"available"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST New Album",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/inventory/?title= In Rainbows&artist= Radiohead&album= In Rainbows&release_year= 2007&genre= Alternative Rock&condition= Mint&catalog_number= XLLP321&label= XL Recordings&description= Seventh studio album by Radiohead, originally released as a pay-what-you-want download&cover_image= https://upload.wikimedia.org/wikipedia/en/1/14/Inrainbows.png",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"inventory",
+						""
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": " In Rainbows"
+						},
+						{
+							"key": "artist",
+							"value": " Radiohead"
+						},
+						{
+							"key": "album",
+							"value": " In Rainbows"
+						},
+						{
+							"key": "release_year",
+							"value": " 2007"
+						},
+						{
+							"key": "genre",
+							"value": " Alternative Rock"
+						},
+						{
+							"key": "condition",
+							"value": " Mint"
+						},
+						{
+							"key": "catalog_number",
+							"value": " XLLP321"
+						},
+						{
+							"key": "label",
+							"value": " XL Recordings"
+						},
+						{
+							"key": "description",
+							"value": " Seventh studio album by Radiohead, originally released as a pay-what-you-want download"
+						},
+						{
+							"key": "cover_image",
+							"value": " https://upload.wikimedia.org/wikipedia/en/1/14/Inrainbows.png"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT by id",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/inventory/1?album=tes ubah",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"inventory",
+						"1"
+					],
+					"query": [
+						{
+							"key": "album",
+							"value": "tes ubah"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

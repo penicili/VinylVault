@@ -5,15 +5,61 @@ namespace App\Http\Controllers;
 use App\Models\Record;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class InventoryController extends Controller
 {
     /**
+     * Sync inventory with the order service to update record availability
+     */
+    private function syncBorrowedRecords(): void
+    {
+        try {
+            $orderServiceUrl = 'http://localhost:8082';
+            $response = Http::timeout(5)->get($orderServiceUrl . '/api/borrowed-albums');
+            
+            if ($response->successful()) {
+                $borrowedAlbums = $response->json('data', []);
+                
+                // Get all borrowed record IDs
+                $borrowedIds = collect($borrowedAlbums)->pluck('record_id')->filter()->all();
+                
+                if (!empty($borrowedIds)) {
+                    // Mark all borrowed records as unavailable
+                    Record::whereIn('id', $borrowedIds)
+                        ->update(['is_available' => false]);
+                    
+                    // Mark all non-borrowed records as available
+                    Record::whereNotIn('id', $borrowedIds)
+                        ->update(['is_available' => true]);
+                    
+                    Log::info('Record availability synced with Order Service', [
+                        'borrowed_count' => count($borrowedIds)
+                    ]);
+                }
+            } else {
+                Log::warning('Failed to fetch borrowed albums from Order Service', [
+                    'status' => $response->status(),
+                    'message' => $response->body()
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error syncing with Order Service', [
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
      * Display a listing of records
      */
     public function index(): JsonResponse
     {
+        // Sync with Order Service first
+        $this->syncBorrowedRecords();
+        
         $records = Record::all();
         return response()->json(['data' => $records]);
     }
@@ -23,6 +69,9 @@ class InventoryController extends Controller
      */
     public function available(): JsonResponse
     {
+        // Sync with Order Service first
+        $this->syncBorrowedRecords();
+
         $records = Record::where('is_available', true)->get();
         return response()->json(['data' => $records]);
     }

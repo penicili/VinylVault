@@ -18,3 +18,6 @@ Route::get('/check-album-status', [TransactionController::class, 'checkAlbumStat
 // Get transaction details with album information
 Route::get('/transactions/{transactionId}', [TransactionController::class, 'getTransactionDetails']);
 
+// Get all borrowed albums
+Route::get('/borrowed-albums', [TransactionController::class, 'getBorrowedAlbums']);
+

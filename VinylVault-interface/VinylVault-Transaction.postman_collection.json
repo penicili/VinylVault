@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "d56c13d4-a467-44f2-a52a-5a3aa6bb5994",
+		"name": "VinylVault-Transaction",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33958177",
+		"_collection_link": "https://cloudy-meadow-55464.postman.co/workspace/Team-Workspace~cf0ab5dd-a24b-4c6c-8526-340e3582dabc/collection/33958177-d56c13d4-a467-44f2-a52a-5a3aa6bb5994?action=share&source=collection_link&creator=33958177"
+	},
+	"item": [
+		{
+			"name": "Create Transaction (borrow)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"album_id\" : \"14\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/api/transactions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Album Status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/check-album-status?album_id=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"check-album-status"
+					],
+					"query": [
+						{
+							"key": "album_id",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Return an Album",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/transactions/{{transactionId}}/return",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"transactions",
+						"{{transactionId}}",
+						"return"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -156,4 +156,29 @@ class TransactionController extends Controller
             'error' => 'Failed to fetch album details'
         ], 200);
     }
+
+    /**
+     * Get all albums that are currently borrowed
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getBorrowedAlbums()
+    {
+        // Get all transactions where is_returned is false
+        $borrowedTransactions = Transaction::where('is_returned', false)->get();
+        
+        // Extract just the album IDs and transaction details needed by inventory service
+        $borrowedAlbums = $borrowedTransactions->map(function ($transaction) {
+            return [
+                'album_id' => $transaction->album_id,
+                'transaction_id' => $transaction->transaction_id,
+                'borrowed_at' => $transaction->created_at
+            ];
+        });
+        
+        return response()->json([
+            'data' => $borrowedAlbums,
+            'count' => $borrowedAlbums->count()
+        ]);
+    }
 }
