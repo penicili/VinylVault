@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\Http;
 class TransactionController extends Controller
 {
     /**
+     * Get all transactions
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAllTransactions()
+    {
+        $transactions = Transaction::all();
+        
+        return response()->json([
+            'data' => $transactions
+        ]);
+    }
+    
+    /**
      * Create a new transaction
      */
     public function createTransaction(Request $request)

@@ -3,6 +3,9 @@
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
+// Get all transactions
+Route::get('/transactions', [TransactionController::class, 'getAllTransactions']);
+
 // Create a new transaction
 Route::post('/transactions', [TransactionController::class, 'createTransaction']);
 
