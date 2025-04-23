@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Route;
 
 // Inventory Service API Routes

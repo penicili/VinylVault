@@ -24,20 +24,29 @@ class InventoryController extends Controller
                 $borrowedAlbums = $response->json('data', []);
                 
                 // Get all borrowed record IDs
-                $borrowedIds = collect($borrowedAlbums)->pluck('record_id')->filter()->all();
-                
+                $borrowedIds = collect($borrowedAlbums)->pluck('album_id')->filter()->all();
+
+                // If we have borrowed IDs, mark them as unavailable
                 if (!empty($borrowedIds)) {
                     // Mark all borrowed records as unavailable
                     Record::whereIn('id', $borrowedIds)
                         ->update(['is_available' => false]);
                     
-                    // Mark all non-borrowed records as available
-                    Record::whereNotIn('id', $borrowedIds)
-                        ->update(['is_available' => true]);
-                    
-                    Log::info('Record availability synced with Order Service', [
+                    Log::info('Marked borrowed records as unavailable', [
                         'borrowed_count' => count($borrowedIds)
                     ]);
+                }
+
+                // Always mark all non-borrowed records as available (whether borrowedIds is empty or not)
+                if (empty($borrowedIds)) {
+                    // If no borrowed albums, mark all records as available
+                    Record::query()->update(['is_available' => true]);
+                    Log::info('Marked all records as available (no borrowed albums)');
+                } else {
+                    // Mark only non-borrowed records as available
+                    Record::whereNotIn('id', $borrowedIds)
+                        ->update(['is_available' => true]);
+                    Log::info('Marked non-borrowed records as available');
                 }
             } else {
                 Log::warning('Failed to fetch borrowed albums from Order Service', [
