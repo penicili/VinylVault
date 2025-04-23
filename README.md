@@ -9,6 +9,28 @@ Auveta Rizky Pratama <br>
 
 
 ## Services
-1. Order/ Transaction Service => Transaction Database
+1. Transaction Service => Transaction Database
+    Consume: Cek Album by id ketika createTransaction from Inventory Service 
+    Provide: GET All Inventory
+             GET Inventory by ID
+             GET Inventory by Title
+             GET Available Inventory
+             POST New Album
+             PUT Album by Id
+
+
 2. Inventory Service  => Album Database
-3. Deepseek AI Integration for Album Recomendations => Album Recomendations Powered by AI
+    Consume: All Borrowed Albums from Transaction Service
+    Provide: POST Transaction
+             GET Album Status
+             PATCH Return Album
+             GET Transaction details using Id
+             GET All Transactions
+             GET All Borrowed albums
+             
+## Extra
++ Deepseek AI Integration for Album Recomendations => 
+    Consume: Most of provided API endpoints from Inventory & Transaction Services
+             Deepseek Platform for recommendations
+
+
