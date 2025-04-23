@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const SearchSection = ({ 
-  onShowAll, 
-  onShowAvailable, 
-  onSearch 
+const SearchSection = ({
+  onShowAll,
+  onShowAvailable,
+  onSearch,
+  onShowAssistant,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -14,7 +15,7 @@ const SearchSection = ({
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -30,26 +31,33 @@ const SearchSection = ({
         onChange={(e) => setSearchQuery(e.target.value)}
         onKeyPress={handleKeyPress}
       />
-      
+
       {/* Container for buttons */}
       <div className="flex justify-between">
-        <div className="flex gap-4"></div>
+        <div className="flex gap-4">
+          <button
+            className="py-2 px-4 underline text-purple-600 hover:text-blue-600"
+            onClick={onShowAssistant}
+          >
+            Help Me Choose an Album
+          </button>
+        </div>
         <div className="flex justify-end gap-4">
-          <button 
+          <button
             className="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition duration-300"
             onClick={onShowAll}
           >
             Show All
           </button>
 
-          <button 
+          <button
             className="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition duration-300"
             onClick={onShowAvailable}
           >
             Show Available
           </button>
 
-          <button 
+          <button
             className="bg-purple-600 text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition duration-300"
             onClick={handleSearch}
           >

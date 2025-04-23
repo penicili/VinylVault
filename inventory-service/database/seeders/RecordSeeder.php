@@ -169,6 +169,97 @@ class RecordSeeder extends Seeder
                 'description' => 'Double album that expanded the band\'s musical palette beyond punk',
                 'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/0/00/TheClashLondonCallingalbumcover.jpg',
                 'is_available' => true
+            ],
+            [
+                'title' => 'Be the Cowboy',
+                'artist' => 'Mitski',
+                'album' => 'Be the Cowboy',
+                'release_year' => 2018,
+                'genre' => 'Indie Rock',
+                'condition' => 'Mint',
+                'catalog_number' => 'DOC159',
+                'label' => 'Dead Oceans',
+                'description' => 'Fifth studio album by Mitski, featuring singles "Nobody" and "Geyser"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/8/8d/Mitski_-_Be_the_Cowboy.png',
+                'is_available' => true
+            ],
+            [
+                'title' => 'Puberty 2',
+                'artist' => 'Mitski',
+                'album' => 'Puberty 2',
+                'release_year' => 2016,
+                'genre' => 'Indie Rock',
+                'condition' => 'Very Good',
+                'catalog_number' => 'DOC118',
+                'label' => 'Dead Oceans',
+                'description' => 'Fourth studio album by Mitski, featuring "Your Best American Girl"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/4/48/Mitski_-_Puberty_2.jpg',
+                'is_available' => true
+            ],
+            [
+                'title' => 'Laurel Hell',
+                'artist' => 'Mitski',
+                'album' => 'Laurel Hell',
+                'release_year' => 2022,
+                'genre' => 'Indie Pop/Synth-pop',
+                'condition' => 'Near Mint',
+                'catalog_number' => 'DOC245',
+                'label' => 'Dead Oceans',
+                'description' => 'Sixth studio album by Mitski with singles "Working for the Knife" and "The Only Heartbreaker"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/f/f1/Mitski_-_Laurel_Hell.jpg',
+                'is_available' => true
+            ],
+            [
+                'title' => 'The Red',
+                'artist' => 'Red Velvet',
+                'album' => 'The Red',
+                'release_year' => 2015,
+                'genre' => 'K-pop',
+                'condition' => 'Mint',
+                'catalog_number' => 'SMK0650',
+                'label' => 'SM Entertainment',
+                'description' => 'First full-length studio album by Red Velvet, including their hit "Dumb Dumb"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/0/04/Red_Velvet_The_Red.jpg',
+                'is_available' => true
+            ],
+            [
+                'title' => 'Perfect Velvet',
+                'artist' => 'Red Velvet',
+                'album' => 'Perfect Velvet',
+                'release_year' => 2017,
+                'genre' => 'K-pop/R&B',
+                'condition' => 'Near Mint',
+                'catalog_number' => 'SMK0866',
+                'label' => 'SM Entertainment',
+                'description' => 'Second full-length studio album by Red Velvet, featuring the single "Peek-a-Boo"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/e/e4/Red_Velvet_Perfect_Velvet.jpg',
+                'is_available' => true
+            ],
+            [
+                'title' => 'The ReVe Festival: Finale',
+                'artist' => 'Red Velvet',
+                'album' => 'The ReVe Festival: Finale',
+                'release_year' => 2019,
+                'genre' => 'K-pop',
+                'condition' => 'Very Good',
+                'catalog_number' => 'SMK1025',
+                'label' => 'SM Entertainment',
+                'description' => 'Special album that concludes "The ReVe Festival" trilogy, with the lead single "Psycho"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/a/a4/Red_Velvet_-_The_ReVe_Festival_Finale.jpg',
+                'is_available' => true
+            ],
+            [
+                'title' => 'Queendom',
+                'artist' => 'Red Velvet',
+                'album' => 'Queendom',
+                'release_year' => 2021,
+                'genre' => 'K-pop',
+                'condition' => 'Mint',
+                'catalog_number' => 'SMK1120',
+                'label' => 'SM Entertainment',
+                'description' => 'Red Velvet\'s first mini-album after a hiatus, featuring the upbeat title track "Queendom"',
+                'cover_image' => 'https://upload.wikimedia.org/wikipedia/en/4/4b/Red_Velvet_-_Queendom.png',
+                'is_available' => true
             ]
         ];
 

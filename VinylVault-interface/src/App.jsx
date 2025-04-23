@@ -3,23 +3,24 @@ import AlbumList from "./components/AlbumList"; // Update import
 import TransactionList from "./components/TransactionList";
 import SearchSection from "./components/SearchSection";
 import AlbumModal from './components/AlbumModal'; // Add import
+import Assistant from './components/Assistant'; 
 
 function App() {
   const inventoryApi = "http://localhost:8081/api/inventory";
   const transactionApi = "http://localhost:8082/api/transactions";
 
-  // Inventory State
+  // State buat inventory
   const [inventory, setInventory] = useState([]);
-  // Transaction State
+  // State buat transaksi
   const [transaction, setTransaction] = useState([]);
-  // Add a new state for visibility
+  // State buat tampilan daftar album
   const [showAlbums, setShowAlbums] = useState(false);
-  // Add this state for the selected album
+  // State buat album yang dipilih
   const [selectedAlbum, setSelectedAlbum] = useState(null);
-  // Add a new state for notifications
-  const [notification, setNotification] = useState(null);
+  // State buat tampilan assistant
+  const [showAssistant, setShowAssistant] = useState(false);
 
-  // GET all inventory
+  // Ambil semua data inventory
   const getInventory = async () => {
     try {
       const response = await fetch(inventoryApi);
@@ -34,7 +35,7 @@ function App() {
     }
   };
 
-  // GET inventory by query
+  // Ambil inventory berdasarkan keyword pencarian
   const getInventoryByQuery = async (query) => {
     try {
       const response = await fetch(`${inventoryApi}/search/${query}`);
@@ -49,7 +50,7 @@ function App() {
     }
   };
 
-  // GET inventory by availability
+  // Ambil inventory yang masih tersedia saja
   const getInventoryByAvailability = async () => {
     try {
       const response = await fetch(`${inventoryApi}/available`);
@@ -64,7 +65,7 @@ function App() {
     }
   };
 
-  // GET all transaction
+  // Ambil semua data transaksi
   const getTransactions = async () => {
     try {
       const response = await fetch(transactionApi);
@@ -82,7 +83,7 @@ function App() {
     }
   };
 
-  // PATCH return rented album
+  // Update status album yang dikembalikan
   const returnAlbum = async (transactionId) => {
     try {
       console.log("Returning album with transaction ID:", transactionId);
@@ -98,7 +99,7 @@ function App() {
       const responseText = await response.text();
       console.log("Raw server response:", responseText);
       
-      // Only try to parse if there's content
+      // Coba parse JSON kalau ada isinya
       let responseData;
       if (responseText && responseText.trim()) {
         try {
@@ -109,11 +110,11 @@ function App() {
         }
       }
       
-      // Important: First update inventory to make sure album titles are available
+      // Penting: Update inventory dulu biar judul album tersedia
       await getInventory();
       console.log("Inventory refreshed after return");
       
-      // Then update transactions
+      // Baru update transaksi
       await getTransactions();
       console.log("Transactions refreshed after return");
       
@@ -122,21 +123,21 @@ function App() {
     }
   };
 
-  // Add a function to get album title by ID
+  // function buat dapet judul album dari ID
   const getAlbumTitleById = (albumId) => {
     if (!inventory || inventory.length === 0) return `Album #${albumId}`;
-    // Find the album in inventory with matching ID
+    // Cari album di inventory dengan ID yang sama
     const album = inventory.find(item => item.id.toString() === albumId.toString());
-    // Return the title if found, otherwise return the ID
+    // Kembalikan judul kalau ketemu, kalau nggak kembalikan ID-nya
     return album ? album.title : `Album #${albumId}`;
   };
 
-  // POST rent album
+  // Sewa album baru
   const rentAlbum = async (albumId) => {
     try {
       console.log("Starting rental process for album ID:", albumId);
       
-      // Make sure the albumId is passed correctly
+      // Pastikan albumId dikirim dengan benar
       const requestBody = { album_id: albumId.toString() };
       console.log("Request body:", JSON.stringify(requestBody));
       
@@ -148,18 +149,18 @@ function App() {
         body: JSON.stringify(requestBody),
       });
       
-      // Log the response status
+      // Cek status response
       console.log("Response status:", response.status, response.statusText);
       
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.status}`);
       }
       
-      // Simple response handling
+      // Tangani response sederhana
       const responseText = await response.text();
       console.log("Raw server response:", responseText);
       
-      // Only try to parse if there's content
+      // Coba parse kalau ada isinya
       let responseData;
       if (responseText) {
         try {
@@ -170,19 +171,19 @@ function App() {
         }
       }
       
-      // First update inventory
+      // Update inventory dulu
       await getInventory();
-      // Then update transactions
+      // Lalu update transaksi
       await getTransactions();
       
-      // Close the modal
+      // Tutup modal
       setSelectedAlbum(null);
     } catch (error) {
       console.error("Error renting album:", error);
     }
   };
 
-  // Handler functions for the SearchSection component
+  // function-function handler buat komponen SearchSection
   const handleShowAll = () => {
     getInventory();
     setShowAlbums(true);
@@ -198,10 +199,16 @@ function App() {
     setShowAlbums(true);
   };
 
-  // Updated handler for album click - now it sets the selected album
+  // Handler buat klik album - sekarang set album yang dipilih
   const handleAlbumClick = (album) => {
     console.log("Album clicked:", album);
     setSelectedAlbum(album);
+  };
+
+  // Handler buat menampilkan asisten
+  const handleShowAssistant = () => {
+    setShowAssistant(true);
+    console.log("Show AI Assistant");
   };
 
   useEffect(() => {
@@ -211,34 +218,35 @@ function App() {
   console.log(inventory);
 
   return (
-    // Main container
+    // Container utama
     <div className="bg-gray-100 min-h-screen flex flex-col items-center p-8">
       <div className="text-center mb-8">
-        {/* Title */}
+        {/* Judul */}
         <h1 className="text-7xl font-bold text-purple-800 mb-1">VinylVault</h1>
-        {/* Subtitle */}
+        {/* Subjudul */}
         <h2 className="text-2xl font-semibold text-gray-500 mb-4">
           Simple vinyl rental service
         </h2>
       </div>
 
-      {/* SearchSection component */}
+      {/* Komponen SearchSection */}
       <SearchSection
         onShowAll={handleShowAll}
         onShowAvailable={handleShowAvailable}
         onSearch={handleSearch}
+        onShowAssistant={handleShowAssistant}
       />
 
-      {/* Main content container */}
+      {/* Container konten utama */}
       <div className="w-full max-w-4xl">
-        {/* TransactionList component */}
+        {/* Komponen TransactionList */}
         <TransactionList 
           transactions={transaction}
           onReturn={returnAlbum}
           getAlbumTitle={getAlbumTitleById}
         />
 
-        {/* AlbumList component */}
+        {/* Komponen AlbumList */}
         {showAlbums && (
           <AlbumList 
             albums={inventory}
@@ -247,12 +255,19 @@ function App() {
         )}
       </div>
 
-      {/* Add the modal at the end of the component */}
+      {/* Tambahkan modal di akhir komponen */}
       {selectedAlbum && (
         <AlbumModal 
           album={selectedAlbum} 
           onClose={() => setSelectedAlbum(null)} 
           onRent={rentAlbum}
+        />
+      )}
+      
+      {/* Komponen Assistant */}
+      {showAssistant && (
+        <Assistant 
+          onClose={() => setShowAssistant(false)} 
         />
       )}
     </div>
