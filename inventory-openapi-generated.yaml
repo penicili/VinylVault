@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: VinylVault-Inventory
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://localhost
+paths:
+  /api/inventory:
+    get:
+      summary: GET all inventory
+      description: GET all inventory
+      operationId: getAllInventory
+      responses:
+        '200':
+          description: ''
+  /api/inventory/1:
+    get:
+      summary: GET inventory by id
+      description: GET inventory by id
+      operationId: getInventoryById
+      responses:
+        '200':
+          description: ''
+  /api/inventory/search/dark:
+    get:
+      summary: GET Inventory by title
+      description: GET Inventory by title
+      operationId: getInventoryByTitle
+      responses:
+        '200':
+          description: ''
+  /api/inventory/available:
+    get:
+      summary: GET by avail status
+      description: GET by avail status
+      operationId: getByAvailStatus
+      responses:
+        '200':
+          description: ''
+  /api/inventory/:
+    put:
+      summary: PUT by id
+      description: PUT by id
+      operationId: putById
+      parameters:
+        - name: album
+          in: query
+          schema:
+            type: string
+            example: tes ubah
+        - name: id
+          in: query
+          schema:
+            type: string
+            example: '1'
+      responses:
+        '200':
+          description: ''
+    post:
+      summary: POST New Album
+      description: POST New Album
+      operationId: postNewAlbum
+      parameters:
+        - name: title
+          in: query
+          schema:
+            type: string
+            example: ' In Rainbows'
+        - name: artist
+          in: query
+          schema:
+            type: string
+            example: ' Radiohead'
+        - name: album
+          in: query
+          schema:
+            type: string
+            example: ' In Rainbows'
+        - name: release_year
+          in: query
+          schema:
+            type: string
+            example: ' 2007'
+        - name: genre
+          in: query
+          schema:
+            type: string
+            example: ' Alternative Rock'
+        - name: condition
+          in: query
+          schema:
+            type: string
+            example: ' Mint'
+        - name: catalog_number
+          in: query
+          schema:
+            type: string
+            example: ' XLLP321'
+        - name: label
+          in: query
+          schema:
+            type: string
+            example: ' XL Recordings'
+        - name: description
+          in: query
+          schema:
+            type: string
+            example: ' Seventh studio album by Radiohead, originally released as a pay-what-you-want download'
+        - name: cover_image
+          in: query
+          schema:
+            type: string
+            example: ' https://upload.wikimedia.org/wikipedia/en/1/14/Inrainbows.png'
+        - name: Content
+          in: header
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        content:
+          text/plain:
+            example: ''
+      responses:
+        '200':
+          description: ''
+tags: []

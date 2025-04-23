@@ -1,0 +1,86 @@
+openapi: 3.0.3
+info:
+  title: VinylVault-Transaction
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://localhost
+paths:
+  /api/transactions:
+    post:
+      summary: Create Transaction (borrow)
+      description: Create Transaction (borrow)
+      operationId: createTransactionBorrow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                album_id:
+                  type: string
+                  example: '20'
+            example:
+              album_id: '20'
+      responses:
+        '200':
+          description: ''
+  /api/check-album-status:
+    get:
+      summary: Check Album Status
+      description: Check Album Status
+      operationId: checkAlbumStatus
+      parameters:
+        - name: album_id
+          in: query
+          schema:
+            type: string
+            example: '10'
+      responses:
+        '200':
+          description: ''
+  /api/transactions/{transactionId}/return:
+    patch:
+      summary: Return an Album
+      description: Return an Album
+      operationId: returnAnAlbum
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: transactionId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/transactions/{transactionId}:
+    get:
+      summary: GET Transaction Details using Id
+      description: GET Transaction Details using Id
+      operationId: getTransactionDetailsUsingId
+      responses:
+        '200':
+          description: ''
+    parameters:
+      - name: transactionId
+        in: path
+        required: true
+        schema:
+          type: string
+  /api/transactions/:
+    get:
+      summary: All transactions
+      description: All transactions
+      operationId: allTransactions
+      responses:
+        '200':
+          description: ''
+  /api/borrowed-albums:
+    get:
+      summary: All Borrowed albums
+      description: All Borrowed albums
+      operationId: allBorrowedAlbums
+      responses:
+        '200':
+          description: ''
+tags: []
