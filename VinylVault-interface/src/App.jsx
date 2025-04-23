@@ -1,4 +1,8 @@
 import { useState, useEffect } from "react";
+import AlbumList from "./components/AlbumList"; // Update import
+import TransactionList from "./components/TransactionList";
+import SearchSection from "./components/SearchSection";
+import AlbumModal from './components/AlbumModal'; // Add import
 
 function App() {
   const inventoryApi = "http://localhost:8081/api/inventory";
@@ -8,6 +12,12 @@ function App() {
   const [inventory, setInventory] = useState([]);
   // Transaction State
   const [transaction, setTransaction] = useState([]);
+  // Add a new state for visibility
+  const [showAlbums, setShowAlbums] = useState(false);
+  // Add this state for the selected album
+  const [selectedAlbum, setSelectedAlbum] = useState(null);
+  // Add a new state for notifications
+  const [notification, setNotification] = useState(null);
 
   // GET all inventory
   const getInventory = async () => {
@@ -72,6 +82,46 @@ function App() {
     }
   };
 
+  // PATCH return rented album
+  const returnAlbum = async (transactionId) => {
+    try {
+      console.log("Returning album with transaction ID:", transactionId);
+      
+      const response = await fetch(`${transactionApi}/${transactionId}/return`, {
+        method: "PATCH",
+      });
+      
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      
+      const responseText = await response.text();
+      console.log("Raw server response:", responseText);
+      
+      // Only try to parse if there's content
+      let responseData;
+      if (responseText && responseText.trim()) {
+        try {
+          responseData = JSON.parse(responseText);
+          console.log("Parsed JSON response:", responseData);
+        } catch (parseError) {
+          console.error("Cannot parse response as JSON:", parseError);
+        }
+      }
+      
+      // Important: First update inventory to make sure album titles are available
+      await getInventory();
+      console.log("Inventory refreshed after return");
+      
+      // Then update transactions
+      await getTransactions();
+      console.log("Transactions refreshed after return");
+      
+    } catch (error) {
+      console.error("Error returning album:", error);
+    }
+  };
+
   // Add a function to get album title by ID
   const getAlbumTitleById = (albumId) => {
     if (!inventory || inventory.length === 0) return `Album #${albumId}`;
@@ -81,100 +131,130 @@ function App() {
     return album ? album.title : `Album #${albumId}`;
   };
 
+  // POST rent album
+  const rentAlbum = async (albumId) => {
+    try {
+      console.log("Starting rental process for album ID:", albumId);
+      
+      // Make sure the albumId is passed correctly
+      const requestBody = { album_id: albumId.toString() };
+      console.log("Request body:", JSON.stringify(requestBody));
+      
+      const response = await fetch(transactionApi, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+      
+      // Log the response status
+      console.log("Response status:", response.status, response.statusText);
+      
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.status}`);
+      }
+      
+      // Simple response handling
+      const responseText = await response.text();
+      console.log("Raw server response:", responseText);
+      
+      // Only try to parse if there's content
+      let responseData;
+      if (responseText) {
+        try {
+          responseData = JSON.parse(responseText);
+          console.log("Parsed JSON response:", responseData);
+        } catch (parseError) {
+          console.error("Cannot parse response as JSON:", parseError);
+        }
+      }
+      
+      // First update inventory
+      await getInventory();
+      // Then update transactions
+      await getTransactions();
+      
+      // Close the modal
+      setSelectedAlbum(null);
+    } catch (error) {
+      console.error("Error renting album:", error);
+    }
+  };
+
+  // Handler functions for the SearchSection component
+  const handleShowAll = () => {
+    getInventory();
+    setShowAlbums(true);
+  };
+
+  const handleShowAvailable = () => {
+    getInventoryByAvailability();
+    setShowAlbums(true);
+  };
+
+  const handleSearch = (query) => {
+    getInventoryByQuery(query);
+    setShowAlbums(true);
+  };
+
+  // Updated handler for album click - now it sets the selected album
+  const handleAlbumClick = (album) => {
+    console.log("Album clicked:", album);
+    setSelectedAlbum(album);
+  };
+
   useEffect(() => {
     getInventory();
     getTransactions();
   }, []);
-  console.log(transaction);
-
+  console.log(inventory);
 
   return (
     // Main container
-    <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-      {/* container tulisan */}
-      <div className="text-center">
-        {/* Judul */}
+    <div className="bg-gray-100 min-h-screen flex flex-col items-center p-8">
+      <div className="text-center mb-8">
+        {/* Title */}
         <h1 className="text-7xl font-bold text-purple-800 mb-1">VinylVault</h1>
-        {/* subtitle */}
+        {/* Subtitle */}
         <h2 className="text-2xl font-semibold text-gray-500 mb-4">
           Simple vinyl rental service
         </h2>
-
-        {/* Container komponen-komponen */}
-        <div className="max-w-3xl w-[700px]">
-          {/* Search bar */}
-          <input
-            type="text"
-            className="w-full h-[50px] px-4 py-2 border border-gray-300 rounded-3xl mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Search albums by title"
-          />
-          {/* container tombol2 */}
-          <div className="flex justify-between mb-4">
-            <div className="flex gap-4"></div>
-            <div className="flex justify-end mb-4 gap-4">
-              <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition duration-300">
-                Show All
-              </button>
-
-              <button className="bg-gray-200 text-gray-700 px-4 py-2 rounded-xl hover:bg-gray-300 transition duration-300">
-                Show Available
-              </button>
-
-              <button className="bg-purple-600 text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition duration-300">
-                Search
-              </button>
-            </div>
-          </div>
-
-          {/* Transaction Section */}
-          <div className="flex flex-col bg-white shadow-md rounded-lg p-4 mb-4">
-            <div className="bg-white p-4 border-b border-gray-300 mb-2">
-              <h3 className="text-xl font-semibold">Active Transactions</h3>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {transaction && transaction.length > 0 ? (
-                transaction
-                  .filter(item => item.is_returned === false || item.is_returned === true) // Show all transactions
-                  .map((item) => (
-                    <div 
-                      key={item.transaction_id} 
-                      className="flex justify-between items-center p-4 rounded-lg border border-gray-200 hover:bg-gray-50"
-                    >
-                      <p className="font-medium text-gray-800">id#{item.transaction_id}</p>
-                      <p className="text-gray-600">
-                        {/* ambil title pake album id */}
-                        Title: {getAlbumTitleById(item.album_id)} | 
-                        Date: {new Date(item.created_at).toLocaleDateString()}
-                      </p>
-
-                      {/* Conditional rendering based on is_returned status */}
-                      {item.is_returned === false ? (
-                        <button 
-                          className="bg-white text-gray-700 px-4 py-2 rounded-md hover:bg-green-500 transition duration-300 border border-gray-300 text-green-500 hover:text-white"
-                          onClick={() => {
-                            console.log(`Return album with transaction ID: ${item.transaction_id}`);
-                            // TODO: Implement return functionality
-                          }}
-                        > 
-                          Return
-                        </button>
-                      ) : (
-                        <span className="px-4 py-2 bg-gray-100 text-gray-500 rounded-md">
-                          Returned
-                        </span>
-                      )}
-                    </div>
-                  ))
-              ) : (
-                <div className="text-center py-4 text-gray-500">
-                  No active transactions
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
       </div>
+
+      {/* SearchSection component */}
+      <SearchSection
+        onShowAll={handleShowAll}
+        onShowAvailable={handleShowAvailable}
+        onSearch={handleSearch}
+      />
+
+      {/* Main content container */}
+      <div className="w-full max-w-4xl">
+        {/* TransactionList component */}
+        <TransactionList 
+          transactions={transaction}
+          onReturn={returnAlbum}
+          getAlbumTitle={getAlbumTitleById}
+        />
+
+        {/* AlbumList component */}
+        {showAlbums && (
+          <AlbumList 
+            albums={inventory}
+            onAlbumClick={handleAlbumClick}
+          />
+        )}
+      </div>
+
+      {/* Add the modal at the end of the component */}
+      {selectedAlbum && (
+        <AlbumModal 
+          album={selectedAlbum} 
+          onClose={() => setSelectedAlbum(null)} 
+          onRent={rentAlbum}
+        />
+      )}
     </div>
   );
 }
