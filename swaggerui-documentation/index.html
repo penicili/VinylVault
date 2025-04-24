@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VinylVault API Documentation</title>
+  <link rel="stylesheet" type="text/css" href="node_modules/swagger-ui/dist/swagger-ui.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .topbar {
+      display: none;
+    }
+    .swagger-ui .info .title {
+      color: #333;
+    }
+    .api-selection {
+      background-color: #f0f0f0;
+      padding: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .api-selection button {
+      margin: 5px;
+      padding: 8px 16px;
+      background-color: #4990e2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .api-selection button:hover {
+      background-color: #3b7bc0;
+    }
+  </style>
+</head>
+<body>
+  <div class="api-selection">
+    <h2>VinylVault API Documentation</h2>
+    <button onclick="loadSpec('inventory-openapi-generated.yaml')">Inventory API</button>
+    <button onclick="loadSpec('transaction-openapi-generated.yaml')">Transaction API</button>
+  </div>
+  <div id="swagger-ui"></div>
+
+  <script src="node_modules/swagger-ui/dist/swagger-ui-bundle.js"></script>
+  <script src="node_modules/swagger-ui/dist/swagger-ui-standalone-preset.js"></script>
+  <script>
+    function loadSpec(specFile) {
+      const ui = SwaggerUIBundle({
+        url: `openapi-docs/${specFile}`,
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "StandaloneLayout"
+      });
+      window.ui = ui;
+    }
+    
+    // Load inventory API by default on page load
+    window.onload = function() {
+      loadSpec('inventory-openapi-generated.yaml');
+    };
+  </script>
+</body>
+</html>
