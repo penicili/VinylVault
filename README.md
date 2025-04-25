@@ -32,5 +32,3 @@ Auveta Rizky Pratama <br>
 + Deepseek AI Integration for Album Recomendations => <br>
     Consume: Most of provided API endpoints from Inventory & Transaction Services<br>
              Deepseek Platform for recommendations<br>
-
-

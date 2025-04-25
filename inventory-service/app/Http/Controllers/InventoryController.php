@@ -25,6 +25,7 @@ class InventoryController extends Controller
                 
                 // Get all borrowed record IDs
                 $borrowedIds = collect($borrowedAlbums)->pluck('album_id')->filter()->all();
+                $borrowedIds2 = collect($borrowedAlbums)->pluck('album_id');
 
                 // If we have borrowed IDs, mark them as unavailable
                 if (!empty($borrowedIds)) {
@@ -34,6 +35,9 @@ class InventoryController extends Controller
                     
                     Log::info('Marked borrowed records as unavailable', [
                         'borrowed_count' => count($borrowedIds)
+                    ]);
+                    Log::info('Marked borrowed records as unavailable', [
+                        'b2' => count($borrowedIds2)
                     ]);
                 }
 
