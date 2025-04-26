@@ -9,7 +9,7 @@ Auveta Rizky Pratama <br>
 
 
 ## Services
-1. Transaction Service => Transaction Database <br>
+1.  Inventory Service  => Album Database<br>
     Consume: Cek Album by id ketika createTransaction from Inventory Service <br>
     Provide: GET All Inventory<br>
              GET Inventory by ID<br>
@@ -19,7 +19,7 @@ Auveta Rizky Pratama <br>
              PUT Album by Id<br>
 
 
-2. Inventory Service  => Album Database<br>
+2.  Transaction Service => Transaction Database <br>
     Consume: All Borrowed Albums from Transaction Service<br>
     Provide: POST Transaction<br>
              GET Album Status<br>
